@@ -6,6 +6,7 @@ void max_heapify(int* arr, int n, int s, int i)
 {
 	int temp{};
 
+	//Checking the left child of the parent
 	if (2 * i + 1 <= s - 1)
 	{
 		int left{ 2 * i + 1 };
@@ -17,6 +18,7 @@ void max_heapify(int* arr, int n, int s, int i)
 		}
 	}
 
+	//Checking the right child of the parent
 	if (2 * i + 2 <= s - 1)
 	{
 		int right{ 2 * i + 2};
@@ -33,10 +35,12 @@ void max_heapify(int* arr, int n, int s, int i)
 
 void build_max_heap(int* arr, int n, int s)
 {
+	//Starting from the second last row up the root of the tree
 	int cnt{ static_cast<int>(n / 2) };
 
 	for (int i{ cnt - 1 }; i >= 0; i--)
-		max_heapify(arr, n, s, i);
+		for (int j{ cnt - 1 }; j >= 0; j--)
+			max_heapify(arr, n, s, j);
 }
 
 
@@ -117,6 +121,7 @@ void Maxheap::add(int node)
 		build_max_heap(this->keys, this->capacity, this->height);
 	}
 
+	//If we just added the first node
 	else
 	{
 		this->keys = new int;
@@ -127,6 +132,7 @@ void Maxheap::add(int node)
 
 void Maxheap::Delete()
 {
+	//The total number of nodes in decreased by one 
 	this->height--;
 	int iter{};
 
@@ -136,6 +142,7 @@ void Maxheap::Delete()
 	if (static_cast<int>(std::pow(2, iter)) < this->capacity)
 		this->capacity = static_cast<int>(std::pow(2, iter)) - 1;
 
+	//We store all the current numbers except the maximum which is to be deleted
 	int* temp{ new int[this->height] };
 
 	for (int i{}; i < this->height; i++)
@@ -147,12 +154,14 @@ void Maxheap::Delete()
 	for (int i{}; i < this->height; i++)
 		this->keys[i] = temp[i];
 
+	//We heapify the new tree
 	build_max_heap(this->keys, this->capacity, this->height);
 
 }
 
 int Maxheap::Max()
 {
+	//The root of the tree which is the maximum
 	return this->keys[0];
 }
 
@@ -163,6 +172,7 @@ int Maxheap::getHeight()
 	while (static_cast<int>(std::pow(2, iter)) <= this->height)
 		iter++;
 
+	//Since we do not count the root of the tree as a row
 	return iter - 1;
 }
 
@@ -230,8 +240,11 @@ void Maxheap::Heapsort()
 void Maxheap::printArray()
 {
 	std::cout << "The structure of the heap is illustrated below :\n";
+
+	//iter is to index the rows of the tree, cnt is to index to column of the said row and index is to index the number of node
 	int iter{}, cnt{}, index{};
 
+	//calculating the number of rows
 	while (static_cast<int>(std::pow(2, iter)) <= this->height)
 		iter++;
 
@@ -241,6 +254,8 @@ void Maxheap::printArray()
 		for (int j{}; j < cnt; j++)
 		{
 			std::cout << this->keys[index++] << " ,";
+
+			//if we have reached the end of the tree
 			if (index == this->height)
 				break;
 

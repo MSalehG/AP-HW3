@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+//Since we use maxheap in the ostream we should declare maxheap first
 class Maxheap;
 void max_heapify(int*, int, int, int);
 void build_max_heap(int*, int, int);
@@ -27,8 +28,6 @@ public:
 	int heapHeight();
 
 	int operator[](int);
-	//void operator[](size_t, operator+(int));
-
 
 	void Heapsort();
 	void printArray();
